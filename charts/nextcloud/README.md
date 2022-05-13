@@ -124,6 +124,11 @@ The following table lists the configurable parameters of the nextcloud chart and
 | `mariadb.auth.password`                                      | Password for the database                               | `changeme`                                  |
 | `mariadb.auth.username`                                      | Database user to create                                 | `nextcloud`                                 |
 | `mariadb.auth.rootPassword`                                  | MariaDB admin password                                  | `nil`                                       |
+| `postgresql.enabled`                                         | Whether to use the PostgreSQL chart                     | `false`                                     |
+| `postgresql.global.postgresql.auth.username`                 | Database user to create                                 | `nextcloud`                                 |
+| `postgresql.global.postgresql.auth.password`                 | Password for the database                               | `changeme`                                  |
+| `postgresql.global.postgresql.auth.database`                 | Database name to create                                 | `nextcloud`                                 |
+| `postgresql.primary.persistence.enabled`                     | Whether or not to use PVC on PostgreSQL primary         | `false`                                     |
 | `redis.enabled`                                              | Whether to install/use redis for locking                | `false`                                     |
 | `redis.auth.enabled`                                         | Whether to enable password authentication with redis    | `true`                                      |
 | `redis.auth.password`                                        | The password redis uses                                 | `''`                                        |
@@ -189,7 +194,7 @@ The following table lists the configurable parameters of the nextcloud chart and
 | `metrics.token`                                              | Uses token for auth instead of username/password        | `""`                                        |
 | `metrics.timeout`                                            | When the scrape times out                               | `5s`                                        |
 | `metrics.image.repository`                                   | Nextcloud metrics exporter image name                   | `xperimental/nextcloud-exporter`            |
-| `metrics.image.tag`                                          | Nextcloud metrics exporter image tag                    | `0.5.0`                                    |
+| `metrics.image.tag`                                          | Nextcloud metrics exporter image tag                    | `0.5.1`                                     |
 | `metrics.image.pullPolicy`                                   | Nextcloud metrics exporter image pull policy            | `IfNotPresent`                              |
 | `metrics.podAnnotations`                                     | Additional annotations for metrics exporter             | not set                                     |
 | `metrics.podLabels`                                          | Additional labels for metrics exporter                  | not set                                     |
