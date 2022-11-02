@@ -63,6 +63,10 @@ The following table lists the configurable parameters of the nextcloud chart and
 | `ingress.path`                                               | The `Path` to use in Ingress' `paths`                   | `/`                                         |
 | `ingress.pathType`                                           | The `PathType` to use in Ingress' `paths`               | `Prefix`                                    |
 | `ingress.tls`                                                | Ingress TLS configuration                               | `[]`                                        |
+| `ingress.extraHosts`	                                       | An array with additional hostname(s) under the main host in ingress record  | `[]`                    |
+| `ingress.extraPaths`	                                       | An array with additional arbitrary paths under hosts                                                  |
+| `ingress.extraTls`	                                         | TLS configuration for additional hostname(s) in ingress record | `[]`                                 |
+| `ingress.extraRules`	                                       | Additional rules to use in Ingress                      | `[]`                                        |
 | `nextcloud.host`                                             | nextcloud host to create application URLs               | `nextcloud.kube.home`                       |
 | `nextcloud.username`                                         | User of the application                                 | `admin`                                     |
 | `nextcloud.password`                                         | Application password                                    | `changeme`                                  |
