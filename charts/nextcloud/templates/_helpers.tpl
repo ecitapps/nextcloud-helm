@@ -203,6 +203,38 @@ Create environment variables used to configure the nextcloud container as well a
 {{- end }}
 {{- end -}}
 
+{{/*
+Create volumes for the nextcloud container as well as sidecars and cronjobs.
+*/}}
+{{- define "nextcloud.volumes" -}}
+- name: nextcloud-main
+{{- if .Values.persistence.enabled }}
+  persistentVolumeClaim:
+    claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "nextcloud.fullname" . }}-nextcloud{{- end }}
+{{- else }}
+  emptyDir: {}
+{{- end }}
+{{- if and .Values.persistence.nextcloudData.enabled .Values.persistence.enabled }}
+- name: nextcloud-data
+  persistentVolumeClaim:
+    claimName: {{ if .Values.persistence.nextcloudData.existingClaim }}{{ .Values.persistence.nextcloudData.existingClaim }}{{- else }}{{ template "nextcloud.fullname" . }}-nextcloud-data{{- end }}
+{{- end }}
+{{- if .Values.nextcloud.configs }}
+- name: nextcloud-config
+  configMap:
+    name: {{ template "nextcloud.fullname" . }}-config
+{{- end }}
+{{- if .Values.nextcloud.phpConfigs }}
+- name: nextcloud-phpconfig
+  configMap:
+    name: {{ template "nextcloud.fullname" . }}-phpconfig
+{{- end }}
+{{- if .Values.nginx.enabled }}
+- name: nextcloud-nginx-config
+  configMap:
+    name: {{ template "nextcloud.fullname" . }}-nginxconfig
+{{- end }}
+{{- end -}}
 
 {{/*
 Create volume mounts for the nextcloud container as well as the cron sidecar container.

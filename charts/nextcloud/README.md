@@ -135,8 +135,11 @@ The following table lists the configurable parameters of the nextcloud chart and
 | `redis.auth.enabled`                                         | Whether to enable password authentication with redis    | `true`                                      |
 | `redis.auth.password`                                        | The password redis uses                                 | `''`                                        |
 | `cronjob.enabled`                                            | Whether to enable/disable cronjob                       | `false`                                     |
-| `cronjob.lifecycle.postStartCommand`                         | Specify deployment lifecycle hook postStartCommand      | `nil`                                       |
-| `cronjob.lifecycle.preStopCommand`                           | Specify deployment lifecycle hook preStopCommand        | `nil`                                       |
+| `cronjob.schedule`                                           | Cron schedule                                           | `* /5 * * *`                                |
+| `cronjob.labels`                                             | Labels                                                  | `false`                                     |
+| `cronjob.annotations`                                        | podLabels                                               | `false`                                     |
+| `cronjob.resources`                                          | annotations                                             | `false`                                     |
+| `cronjob.nodeSelector`                                       | resources                                               | `false`                                     |
 | `service.type`                                               | Kubernetes Service type                                 | `ClusterIP`                                 |
 | `service.loadBalancerIP`                                     | LoadBalancerIp for service type LoadBalancer            | `nil`                                       |
 | `service.nodePort`                                           | NodePort for service type NodePort                      | `nil`                                       |
