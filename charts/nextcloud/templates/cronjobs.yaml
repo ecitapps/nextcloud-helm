@@ -16,7 +16,7 @@ apiVersion: batch/v1beta1
 {{- end }}
 kind: CronJob
 metadata:
-  name: {{ $nextcloudFullname }}-cron
+  name: {{ $nextcloudFullname }}-{{ .name | replace " " "-" | lower }}
   labels:
     app.kubernetes.io/name: {{ $nextcloudName }}
     helm.sh/chart: {{ $nextcloudChart }}
@@ -56,7 +56,7 @@ spec:
           {{- end }}
           {{- end }}
           containers:
-            - name: {{ $.Chart.Name }}-cron
+            - name: {{ $.Chart.Name }}-{{ .name | replace " " "-" | lower }}
               {{- if and .image.repository .image.tag }}
               image: "{{ .image.repository }}:{{ .image.tag }}"
               {{- else }}
