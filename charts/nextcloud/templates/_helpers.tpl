@@ -224,6 +224,11 @@ Create volumes for the nextcloud container as well as sidecars and cronjobs.
   configMap:
     name: {{ template "nextcloud.fullname" . }}-config
 {{- end }}
+{{- if .Values.nextcloud.apacheConfigs }}
+- name: nextcloud-apacheconfig
+  configMap:
+    name: {{ template "nextcloud.fullname" . }}-apacheconfig
+{{- end }}
 {{- if .Values.nextcloud.phpConfigs }}
 - name: nextcloud-phpconfig
   configMap:
@@ -270,6 +275,11 @@ Create volume mounts for the nextcloud container as well as the cron sidecar con
 {{- range $key, $value := .Values.nextcloud.configs }}
 - name: nextcloud-config
   mountPath: /var/www/html/config/{{ $key }}
+  subPath: {{ $key }}
+{{- end }}
+{{- range $key, $value := .Values.nextcloud.apacheConfigs }}
+- name: nextcloud-apacheconfig
+  mountPath: /etc/apache2/conf-enabled/{{ $key }}
   subPath: {{ $key }}
 {{- end }}
 {{- if .Values.nextcloud.configs }}
