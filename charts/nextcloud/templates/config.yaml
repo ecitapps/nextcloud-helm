@@ -13,12 +13,6 @@ data:
   {{ $key }}: |-
 {{ $value | indent 4 }}
 {{- end }}
-{{- if .Values.nextcloud.apacheConfigs }}
-{{- range $key, $value := .Values.nextcloud.apacheConfigs }}
-  {{ $key }}: |-
-{{ $value | indent 4 }}
-{{- end }}
-{{- end }}
 {{- if .Values.nextcloud.defaultConfigs }}
 {{- if index .Values.nextcloud.defaultConfigs ".htaccess" }}
   .htaccess: |-
