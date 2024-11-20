@@ -279,7 +279,7 @@ Create volume mounts for the nextcloud container as well as the cron sidecar con
 {{- end }}
 {{- range $key, $value := .Values.nextcloud.apacheConfigs }}
 - name: nextcloud-apacheconfig
-  mountPath: /etc/apache2/conf-enabled/{{ $key }}
+  mountPath: /etc/apache2/mods-available/{{ $key }}
   subPath: {{ $key }}
 {{- end }}
 {{- if .Values.nextcloud.configs }}

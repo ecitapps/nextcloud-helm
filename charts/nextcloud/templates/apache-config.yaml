@@ -1,0 +1,16 @@
+{{- if .Values.nextcloud.apacheConfigs -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "nextcloud.fullname" . }}-apacheconfig
+  labels:
+    app.kubernetes.io/name: {{ include "nextcloud.name" . }}
+    helm.sh/chart: {{ include "nextcloud.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+{{- range $key, $value := .Values.nextcloud.apacheConfigs }}
+  {{ $key }}: |-
+{{ $value | indent 4 }}
+{{- end }}
+{{- end }}
