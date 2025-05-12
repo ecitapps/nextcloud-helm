@@ -7,11 +7,8 @@
 {{- $nextcloudVolumes := include "nextcloud.volumes" . -}}
 
 {{- range .Values.cronjobs }}
-{{- if .enabled }}
-{{- $cronjob := . }}
-{{- $cronJobCount := default 1 .count | int -}}
-{{- range $i := until $cronJobCount }}
 ---
+{{- if .enabled }}
 {{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
 apiVersion: batch/v1
 {{- else }}
@@ -19,24 +16,24 @@ apiVersion: batch/v1beta1
 {{- end }}
 kind: CronJob
 metadata:
-  name: {{ $nextcloudFullname }}-{{ $cronjob.name | replace " " "-" | lower }}{{ if gt $cronJobCount 1 }}-{{ $i }}{{ end }}
+  name: {{ $nextcloudFullname }}-{{ .name | replace " " "-" | lower }}
   labels:
     app.kubernetes.io/name: {{ $nextcloudName }}
     helm.sh/chart: {{ $nextcloudChart }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
     app.kubernetes.io/component: cron
-  {{- if $cronjob.annotations }}
+  {{- if .annotations }}
   annotations:
-{{ toYaml $cronjob.annotations | indent 4 }}
+{{ toYaml .annotations | indent 4 }}
   {{- end }}
 spec:
-  schedule: {{ $cronjob.schedule | quote }}
+  schedule: {{ .schedule | quote }}
   concurrencyPolicy: Forbid
-  {{- with $cronjob.failedJobsHistoryLimit }}
+  {{- with .failedJobsHistoryLimit }}
   failedJobsHistoryLimit: {{ . }}
   {{- end }}
-  {{- with $cronjob.successfulJobsHistoryLimit }}
+  {{- with .successfulJobsHistoryLimit }}
   successfulJobsHistoryLimit: {{ . }}
   {{- end }}
   jobTemplate:
@@ -59,22 +56,22 @@ spec:
           {{- end }}
           {{- end }}
           containers:
-            - name: {{ $.Chart.Name }}-{{ $cronjob.name | replace " " "-" | lower }}{{ if gt $cronJobCount 1 }}-{{ $i }}{{ end }}
-              {{- if and $cronjob.image.repository $cronjob.image.tag }}
-              image: "{{ $cronjob.image.repository }}:{{ $cronjob.image.tag }}"
+            - name: {{ $.Chart.Name }}-{{ .name | replace " " "-" | lower }}
+              {{- if and .image.repository .image.tag }}
+              image: "{{ .image.repository }}:{{ .image.tag }}"
               {{- else }}
               image: {{ $nextcloudImage }}
               {{- end }}
-              imagePullPolicy: {{ default $.Values.image.pullPolicy $cronjob.image.pullPolicy }}
+              imagePullPolicy: {{ default $.Values.image.pullPolicy .image.pullPolicy }}
               command: 
-              {{- if $cronjob.image.command }}
-              {{- toYaml $cronjob.image.command | nindent 16 }}
+              {{- if .image.command }}
+              {{- toYaml .image.command | nindent 16 }}
               {{- else }}
                 ["/bin/su", "-p", "www-data", "-s", "/bin/sh", "-c"]
               {{- end }}
               args: 
-              {{- if $cronjob.image.args }}
-              {{- toYaml $cronjob.image.args | nindent 16 }}
+              {{- if .image.args }}
+              {{- toYaml .image.args | nindent 16 }}
               {{- else }}
               - |
                 php ./cron.php
@@ -101,11 +98,11 @@ spec:
               volumeMounts:
               {{- $nextcloudVolumeMounts | trim | nindent 16 }}
               resources:
-{{ toYaml (default $.Values.resources $cronjob.resources) | indent 16 }}
+{{ toYaml (default $.Values.resources .resources) | indent 16 }}
           {{- if $.Values.rbac.enabled }}
           serviceAccountName: {{ $.Values.rbac.serviceaccount.name }}
           {{- end }}
-    {{- with (default $.Values.nodeSelector $cronjob.nodeSelector) }}
+    {{- with (default $.Values.nodeSelector .nodeSelector) }}
           nodeSelector:
 {{ toYaml . | indent 12 }}
     {{- end }}
@@ -113,11 +110,11 @@ spec:
           initContainers:
           {{- toYaml $.Values.nextcloud.extraInitContainers | nindent 12 }}
           {{- end }}
-    {{- with (default $.Values.affinity $cronjob.affinity) }}
+    {{- with (default $.Values.affinity .affinity) }}
           affinity:
 {{ toYaml . | indent 12 }}
     {{- end }}
-    {{- with (default $.Values.tolerations $cronjob.tolerations) }}
+    {{- with (default $.Values.tolerations .tolerations) }}
           tolerations:
 {{ toYaml . | indent 12 }}
     {{- end }}
@@ -126,6 +123,7 @@ spec:
           {{- if $.Values.nextcloud.extraVolumes }}
           {{- toYaml $.Values.nextcloud.extraVolumes | trim | indent 12 }}
           {{- end }}
+
 {{- end }}
-{{- end }}
+
 {{- end }}
