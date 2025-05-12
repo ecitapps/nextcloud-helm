@@ -312,7 +312,6 @@ cronjobs:
     # prefix of metadata name in k8s, must be only alphabetical characters
   - name: cron
     enabled: false
-    count: 1
     # Nexcloud image is used as default but only curl is needed
     image: {}
       # repository: nextcloud
