@@ -9,6 +9,7 @@
 {{- range .Values.cronjobs }}
 ---
 {{- if .enabled }}
+{{- range $i := until .count }}
 {{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
 apiVersion: batch/v1
 {{- else }}
@@ -123,6 +124,8 @@ spec:
           {{- if $.Values.nextcloud.extraVolumes }}
           {{- toYaml $.Values.nextcloud.extraVolumes | trim | indent 12 }}
           {{- end }}
+
+{{- end }}
 
 {{- end }}
 
