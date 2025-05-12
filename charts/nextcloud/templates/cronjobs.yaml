@@ -9,7 +9,6 @@
 {{- range .Values.cronjobs }}
 ---
 {{- if .enabled }}
-
 {{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
 apiVersion: batch/v1
 {{- else }}
