@@ -9,7 +9,8 @@
 {{- range .Values.cronjobs }}
 ---
 {{- if .enabled }}
-{{- range $i := until .count }}
+{{range $i, $e := until .count}}
+---
 {{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
 apiVersion: batch/v1
 {{- else }}
