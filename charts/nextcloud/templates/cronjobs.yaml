@@ -9,121 +9,121 @@
 {{- range .Values.cronjobs }}
 ---
 {{- if .enabled }}
-{{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
-apiVersion: batch/v1
-{{- else }}
-apiVersion: batch/v1beta1
-{{- end }}
-kind: CronJob
-metadata:
-  name: {{ $nextcloudFullname }}-{{ .name | replace " " "-" | lower }}
-  labels:
-    app.kubernetes.io/name: {{ $nextcloudName }}
-    helm.sh/chart: {{ $nextcloudChart }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    app.kubernetes.io/component: cron
-  {{- if .annotations }}
-  annotations:
-{{ toYaml .annotations | indent 4 }}
+  {{- if $.Capabilities.APIVersions.Has "batch/v1/CronJob" }}
+    apiVersion: batch/v1
+  {{- else }}
+    apiVersion: batch/v1beta1
   {{- end }}
-spec:
-  schedule: {{ .schedule | quote }}
-  concurrencyPolicy: Forbid
-  {{- with .failedJobsHistoryLimit }}
-  failedJobsHistoryLimit: {{ . }}
-  {{- end }}
-  {{- with .successfulJobsHistoryLimit }}
-  successfulJobsHistoryLimit: {{ . }}
-  {{- end }}
-  jobTemplate:
-    metadata:
-      labels:
-        app.kubernetes.io/name: {{ $nextcloudName }}
-        app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    spec:
-      template:
-        metadata:
-          labels:
-            app.kubernetes.io/name: {{ $nextcloudName }}
-            app.kubernetes.io/managed-by: {{ $.Release.Service }}
-        spec:
-          restartPolicy: Never
-          {{- if $.Values.image.pullSecrets }}
-          imagePullSecrets:
-          {{- range $.Values.image.pullSecrets }}
-            - name: {{ . }}
-          {{- end }}
-          {{- end }}
-          containers:
-            - name: {{ $.Chart.Name }}-{{ .name | replace " " "-" | lower }}
-              {{- if and .image.repository .image.tag }}
-              image: "{{ .image.repository }}:{{ .image.tag }}"
-              {{- else }}
-              image: {{ $nextcloudImage }}
-              {{- end }}
-              imagePullPolicy: {{ default $.Values.image.pullPolicy .image.pullPolicy }}
-              command: 
-              {{- if .image.command }}
-              {{- toYaml .image.command | nindent 16 }}
-              {{- else }}
-                ["/bin/su", "-p", "www-data", "-s", "/bin/sh", "-c"]
-              {{- end }}
-              args: 
-              {{- if .image.args }}
-              {{- toYaml .image.args | nindent 16 }}
-              {{- else }}
-              - |
-                php ./cron.php
-              {{- end }}
-              env:
-              {{- $nextcloudEnv | indent 16 }}
-              # Will mount configuration files as www-data (id: 82) for nextcloud
-              {{- if $.Values.nginx.enabled }}
-              securityContext:
-                {{- if $.Values.securityContext }}
-                {{- with $.Values.securityContext }}
-                {{- toYaml . | nindent 17 }}
-                {{- end }}
-                {{- end }}
-              {{- else }}
-              # Will mount configuration files as www-data (id: 33) for nextcloud
-              securityContext:
-                {{- if $.Values.securityContext }}
-                {{- with $.Values.securityContext }}
-                {{- toYaml . | nindent 17 }}
-                {{- end }}
-                {{- end }}
-              {{- end }}
-              volumeMounts:
-              {{- $nextcloudVolumeMounts | trim | nindent 16 }}
-              resources:
-{{ toYaml (default $.Values.resources .resources) | indent 16 }}
-          {{- if $.Values.rbac.enabled }}
-          serviceAccountName: {{ $.Values.rbac.serviceaccount.name }}
-          {{- end }}
-    {{- with (default $.Values.nodeSelector .nodeSelector) }}
-          nodeSelector:
-{{ toYaml . | indent 12 }}
+  kind: CronJob
+  metadata:
+    name: {{ $nextcloudFullname }}-{{ .name | replace " " "-" | lower }}
+    labels:
+      app.kubernetes.io/name: {{ $nextcloudName }}
+      helm.sh/chart: {{ $nextcloudChart }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+      app.kubernetes.io/managed-by: {{ $.Release.Service }}
+      app.kubernetes.io/component: cron
+    {{- if .annotations }}
+    annotations:
+  {{ toYaml .annotations | indent 4 }}
     {{- end }}
-          {{- if $.Values.nextcloud.extraInitContainers }}
-          initContainers:
-          {{- toYaml $.Values.nextcloud.extraInitContainers | nindent 12 }}
-          {{- end }}
-    {{- with (default $.Values.affinity .affinity) }}
-          affinity:
-{{ toYaml . | indent 12 }}
+  spec:
+    schedule: {{ .schedule | quote }}
+    concurrencyPolicy: Forbid
+    {{- with .failedJobsHistoryLimit }}
+    failedJobsHistoryLimit: {{ . }}
     {{- end }}
-    {{- with (default $.Values.tolerations .tolerations) }}
-          tolerations:
-{{ toYaml . | indent 12 }}
+    {{- with .successfulJobsHistoryLimit }}
+    successfulJobsHistoryLimit: {{ . }}
     {{- end }}
-          volumes:
-          {{- $nextcloudVolumes | trim | nindent 12 }}
-          {{- if $.Values.nextcloud.extraVolumes }}
-          {{- toYaml $.Values.nextcloud.extraVolumes | trim | indent 12 }}
-          {{- end }}
+    jobTemplate:
+      metadata:
+        labels:
+          app.kubernetes.io/name: {{ $nextcloudName }}
+          app.kubernetes.io/managed-by: {{ $.Release.Service }}
+      spec:
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: {{ $nextcloudName }}
+              app.kubernetes.io/managed-by: {{ $.Release.Service }}
+          spec:
+            restartPolicy: Never
+            {{- if $.Values.image.pullSecrets }}
+            imagePullSecrets:
+            {{- range $.Values.image.pullSecrets }}
+              - name: {{ . }}
+            {{- end }}
+            {{- end }}
+            containers:
+              - name: {{ $.Chart.Name }}-{{ .name | replace " " "-" | lower }}
+                {{- if and .image.repository .image.tag }}
+                image: "{{ .image.repository }}:{{ .image.tag }}"
+                {{- else }}
+                image: {{ $nextcloudImage }}
+                {{- end }}
+                imagePullPolicy: {{ default $.Values.image.pullPolicy .image.pullPolicy }}
+                command: 
+                {{- if .image.command }}
+                {{- toYaml .image.command | nindent 16 }}
+                {{- else }}
+                  ["/bin/su", "-p", "www-data", "-s", "/bin/sh", "-c"]
+                {{- end }}
+                args: 
+                {{- if .image.args }}
+                {{- toYaml .image.args | nindent 16 }}
+                {{- else }}
+                - |
+                  php ./cron.php
+                {{- end }}
+                env:
+                {{- $nextcloudEnv | indent 16 }}
+                # Will mount configuration files as www-data (id: 82) for nextcloud
+                {{- if $.Values.nginx.enabled }}
+                securityContext:
+                  {{- if $.Values.securityContext }}
+                  {{- with $.Values.securityContext }}
+                  {{- toYaml . | nindent 17 }}
+                  {{- end }}
+                  {{- end }}
+                {{- else }}
+                # Will mount configuration files as www-data (id: 33) for nextcloud
+                securityContext:
+                  {{- if $.Values.securityContext }}
+                  {{- with $.Values.securityContext }}
+                  {{- toYaml . | nindent 17 }}
+                  {{- end }}
+                  {{- end }}
+                {{- end }}
+                volumeMounts:
+                {{- $nextcloudVolumeMounts | trim | nindent 16 }}
+                resources:
+  {{ toYaml (default $.Values.resources .resources) | indent 16 }}
+            {{- if $.Values.rbac.enabled }}
+            serviceAccountName: {{ $.Values.rbac.serviceaccount.name }}
+            {{- end }}
+      {{- with (default $.Values.nodeSelector .nodeSelector) }}
+            nodeSelector:
+  {{ toYaml . | indent 12 }}
+      {{- end }}
+            {{- if $.Values.nextcloud.extraInitContainers }}
+            initContainers:
+            {{- toYaml $.Values.nextcloud.extraInitContainers | nindent 12 }}
+            {{- end }}
+      {{- with (default $.Values.affinity .affinity) }}
+            affinity:
+  {{ toYaml . | indent 12 }}
+      {{- end }}
+      {{- with (default $.Values.tolerations .tolerations) }}
+            tolerations:
+  {{ toYaml . | indent 12 }}
+      {{- end }}
+            volumes:
+            {{- $nextcloudVolumes | trim | nindent 12 }}
+            {{- if $.Values.nextcloud.extraVolumes }}
+            {{- toYaml $.Values.nextcloud.extraVolumes | trim | indent 12 }}
+            {{- end }}
 
-{{- end }}
+  {{- end }}
 
 {{- end }}
