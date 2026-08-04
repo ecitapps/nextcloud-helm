@@ -2,7 +2,7 @@ apiVersion: v2
 name: eurooffice
 description: Euro-Office Document Server Helm chart for Nextcloud integration
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "8.1"
 keywords:
   - eurooffice
