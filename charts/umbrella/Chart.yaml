@@ -6,7 +6,7 @@ version: 1.0.0
 appVersion: "29.0.7"
 dependencies:
   - name: nextcloud
-    version: "33.3.2"
+    version: "33.3.3"
     repository: "file://../nextcloud"
   - name: eurooffice
     version: "1.0.0"
