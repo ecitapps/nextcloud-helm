@@ -1,7 +1,7 @@
 dependencies:
 - name: nextcloud
   repository: file://../nextcloud
-  version: 33.3.4
+  version: 33.3.5
 - name: eurooffice
   repository: file://../eurooffice
   version: 1.0.0
