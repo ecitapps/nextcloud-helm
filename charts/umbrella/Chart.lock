@@ -1,9 +1,9 @@
 dependencies:
 - name: nextcloud
   repository: file://../nextcloud
-  version: 33.3.3
+  version: 33.3.4
 - name: eurooffice
   repository: file://../eurooffice
   version: 1.0.0
-digest: sha256:2643b9803e142b08701e5ca01a8280bdbc8ba84b5f81641fb8b32c9baca38172
-generated: "2026-08-04T11:50:54.58650364+02:00"
+digest: sha256:b08194189e871be0c2cf4eed4c9fda2a25ec233186698c89c990bacd6e97ef84
+generated: "2026-08-04T12:38:28.920107071+02:00"
