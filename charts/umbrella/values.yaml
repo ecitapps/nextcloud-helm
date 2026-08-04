@@ -1,0 +1,7 @@
+# Umbrella Chart default values
+
+nextcloud:
+  enabled: true
+
+eurooffice:
+  enabled: true
