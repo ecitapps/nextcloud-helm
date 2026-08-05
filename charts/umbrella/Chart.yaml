@@ -2,12 +2,12 @@ apiVersion: v2
 name: nextcloud-umbrella
 description: Umbrella Helm Chart for Nextcloud with Euro-Office Document Server integration
 type: application
-version: 1.0.1
+version: 1.1.0
 appVersion: "29.0.7"
 dependencies:
   - name: nextcloud
     version: "33.3.5"
     repository: "file://../nextcloud"
   - name: eurooffice
-    version: "1.0.1"
+    version: "1.1.0"
     repository: "file://../eurooffice"

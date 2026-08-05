@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: onlyoffice/documentserver
-  tag: "8.1"
+  repository: ghcr.io/euro-office/documentserver
+  tag: "9.3.3"
   pullPolicy: IfNotPresent
 
 jwt:

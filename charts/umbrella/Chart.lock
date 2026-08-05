@@ -4,6 +4,6 @@ dependencies:
   version: 33.3.5
 - name: eurooffice
   repository: file://../eurooffice
-  version: 1.0.1
-digest: sha256:b08194189e871be0c2cf4eed4c9fda2a25ec233186698c89c990bacd6e97ef84
-generated: "2026-08-04T12:38:28.920107071+02:00"
+  version: 1.1.0
+digest: sha256:9dd2f9e820e2376bdf9e21c95080103e30b52d8276017f02b1695a2e1cafcc92
+generated: "2026-08-05T12:07:18.857786753+02:00"
