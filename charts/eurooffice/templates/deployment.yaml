@@ -48,7 +48,7 @@ spec:
           volumeMounts:
             {{- if .Values.persistence.enabled }}
             - name: data
-              mountPath: /var/lib/onlyoffice
+              mountPath: /var/lib/eurooffice
             {{- end }}
           resources:
             {{- toYaml (.Values.resources | default dict) | nindent 12 }}
