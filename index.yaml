@@ -2096,6 +2096,26 @@ entries:
   nextcloud-umbrella:
   - apiVersion: v2
     appVersion: 29.0.7
+    created: "2026-09-23T08:50:27.295020964Z"
+    dependencies:
+    - condition: nextcloud.enabled
+      name: nextcloud
+      repository: file://../nextcloud
+      version: 33.3.5
+    - condition: eurooffice.enabled
+      name: eurooffice
+      repository: file://../eurooffice
+      version: 1.1.0
+    description: Umbrella Helm Chart for Nextcloud with Euro-Office Document Server
+      integration
+    digest: 3f99dc1bdb328b1d955ef33f4643f5481dcbcac4d264832fc2cd6a5936f915f3
+    name: nextcloud-umbrella
+    type: application
+    urls:
+    - https://github.com/ecitapps/nextcloud-helm/releases/download/nextcloud-umbrella-1.2.0/nextcloud-umbrella-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 29.0.7
     created: "2026-08-05T10:09:46.013808639Z"
     dependencies:
     - name: nextcloud
@@ -2148,4 +2168,4 @@ entries:
     urls:
     - https://github.com/ecitapps/nextcloud-helm/releases/download/nextcloud-umbrella-1.0.0/nextcloud-umbrella-1.0.0.tgz
     version: 1.0.0
-generated: "2026-08-05T10:09:46.013920158Z"
+generated: "2026-09-23T08:50:27.295123507Z"
