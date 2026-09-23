@@ -5,5 +5,5 @@ dependencies:
 - name: eurooffice
   repository: file://../eurooffice
   version: 1.1.0
-digest: sha256:9dd2f9e820e2376bdf9e21c95080103e30b52d8276017f02b1695a2e1cafcc92
-generated: "2026-08-05T12:07:18.857786753+02:00"
+digest: sha256:6d05fe52ea1d067335e87ef3f3e5693a1e162a5f4d37b6b83b0dcf4f890be80b
+generated: "2026-09-23T10:47:36.560930814+02:00"
